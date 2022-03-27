@@ -69,7 +69,6 @@ Lst *readNxt(char **pos)
     return lst;
 }
 
-// "(a (1 (A) 2) (b)"
 Lst *readLst(char **pos)
 {
     Lst *lst = NULL;
