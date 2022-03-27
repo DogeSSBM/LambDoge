@@ -1,6 +1,6 @@
 #pragma once
 
-typedef enum{T_NAT, T_SYM, T_LST, T_NIL, T_ERR}Type;
+typedef enum{T_NAT, T_SYM, T_LST}Type;
 
 typedef struct Lst{
     Type type;
@@ -12,92 +12,11 @@ typedef struct Lst{
     struct Lst *nxt;
 }Lst;
 
-void showErr(char *in, char *err)
-{
-    const uint len = err-in;
-    printf("%s\n", in);
-    for(uint i = 0; i < len; i++)
-        printf(" ");
-    printf("^\n");
-}
-
-// 1    0 1   0 12 1 2 3   21   <-bal
-// (asdf)(asdf) ((s) (2(234))   <-in
-//              ^               <-last
-// ensures input parens are properly formatted and balanced
-void checkIn(char *in)
-{
-    char *pos = in;
-    int bal = 0;
-    char *last;
-    while((pos = strpbrk(pos, "()"))){
-        if(bal == 0)
-            last = pos;
-        if(*pos=='(')
-            bal++;
-        else
-            bal--;
-        if(bal < 0){
-            fprintf(stderr, "Unexpected ')' at \"%s\"\n", pos);
-            showErr(in, pos);
-            exit(-1);
-        }
-        pos++;
-    }
-    // parens balanced
-    if(bal == 0)
-        return;
-    fprintf(stderr, "Unclosed '(' at \"%s\"\n", last);
-    showErr(in, last);
-    exit(-1);
-}
-
-Type getType(const char c)
-{
-    if(isdigit(c))
-        return T_NAT;
-    if(isalpha(c))
-        return T_SYM;
-    if(c == '(')
-        return T_LST;
-    if(c == ')')
-        return T_NIL;
-    return T_ERR;
-}
-
 char* skipSpace(char *in)
 {
     while(in != NULL && *in != '\0' && isspace(*in))
         in++;
     return in;
-}
-
-Lst *readNat(char **in)
-{
-    char *pos = *in;
-    Lst *lst = calloc(1, sizeof(Lst));
-    lst->type = T_NAT;
-    while(isdigit(*pos)){
-        lst->nat *= 10;
-        lst->nat += *pos - '0';
-        pos++;
-    }
-    *in = skipSpace(pos);
-    return lst;
-}
-
-Lst *readSym(char **in)
-{
-    char *pos = *in;
-    char *end = *in;
-    Lst *lst = calloc(1, sizeof(Lst));
-    lst->type = T_SYM;
-    while(isalpha(*end))
-        end++;
-    lst->sym = calloc((end-pos)+1, sizeof(char));
-    memcpy(lst->sym, pos, end-pos);
-    *in = skipSpace(end);
-    return lst;
 }
 
 Lst *append(Lst *head, Lst *tail)
@@ -111,49 +30,85 @@ Lst *append(Lst *head, Lst *tail)
     return head;
 }
 
-Lst *readLst(char **in)
+Lst *readNxt(char **pos)
 {
-    char *pos = *in;
-    Type t;
-    Lst *lst;
-    while((t = getType(*(pos = skipSpace(pos))))!=T_NIL){
-        switch(t){
-            case T_NAT:
-                lst = append(lst, readNat(&pos));
-                break;
-            case T_SYM:
-                lst = append(lst, readSym(&pos));
-                break;
-            case T_LST:
-                lst = append(lst, readLst(&pos));
-                break;
-            default:
-                printf("somethin borked yo\n");
-                exit(-1);
+    if(**pos == ')'){
+        // printf(") %s\n", *pos);
+        (*pos)++;
+        *pos = skipSpace(*pos);
+        return NULL;
+    }
+    if(**pos == '\0')
+        return NULL;
+    Lst *lst = calloc(1, sizeof(Lst));
+    if(isalpha(**pos)){
+        // printf("s %s\n", *pos);
+        char *cur = *pos;
+        lst->type = T_SYM;
+        while(isalpha(*cur))
+            cur++;
+        lst->sym = calloc((cur - *pos)+1, sizeof(char));
+        memcpy(lst->sym, *pos, cur - *pos);
+        *pos = skipSpace(cur);
+    }else if(isdigit(**pos)){
+        // printf("n %s\n", *pos);
+        char *cur = *pos;
+        lst->type = T_NAT;
+        while(isdigit(*cur)){
+            lst->nat *= 10;
+            lst->nat += *cur - '0';
+            cur++;
         }
+        *pos = skipSpace(cur);
+    }else if(**pos == '('){
+        // printf("( %s\n", *pos);
+        lst->type = T_LST;
+        (*pos)++;
+        *pos = skipSpace(*pos);
     }
     return lst;
 }
 
-void printLst(Lst *lst)
+// "(a (1 (A) 2) (b)"
+Lst *readLst(char **pos)
 {
-    printf("( ");
+    Lst *lst = NULL;
+    Lst *cur = NULL;
+    while((cur = readNxt(pos)) != NULL){
+        if(cur->type == T_LST){
+            cur->lst = readLst(pos);
+            cur->nxt = readLst(pos);
+        }
+        lst = append(lst, cur);
+    }
+    return lst;
+}
+
+void ind(const uint lvl)
+{
+    for(uint i = 0; i < lvl; i++)
+        printf("\t");
+}
+
+void printLst(Lst *lst, int lvl){
     while(lst){
         switch(lst->type){
-            case T_NAT:
-                printf("%u ", lst->nat);
-                break;
             case T_SYM:
-                printf("%s ", lst->sym);
+                ind(lvl);
+                printf("T_SYM: %s\n", lst->sym);
+                break;
+            case T_NAT:
+                ind(lvl);
+                printf("T_NAT: %u\n", lst->nat);
                 break;
             case T_LST:
-                printLst(lst->lst);
+                ind(lvl);
+                printf("T_LST: (\n");
+                printLst(lst->lst, lvl+1);
+                ind(lvl);
+                printf(")\n");
                 break;
-            default:
-                printf("somethin borked yo\n");
-                exit(-1);
         }
         lst = lst->nxt;
     }
-    printf(")\n");
 }
