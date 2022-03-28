@@ -87,7 +87,8 @@ void ind(const uint lvl)
         printf("\t");
 }
 
-void printLst(Lst *lst, int lvl){
+void printLst(Lst *lst, int lvl)
+{
     while(lst){
         switch(lst->type){
             case T_SYM:
@@ -108,4 +109,27 @@ void printLst(Lst *lst, int lvl){
         }
         lst = lst->nxt;
     }
+}
+
+uint lstLen(Lst *lst)
+{
+    uint total = 0;
+    while(lst){
+        if(lst->type == T_LST)
+            total +=1+ lstLen(lst->lst);
+        else
+            total++;
+        lst = lst->nxt;
+    }
+    return total;
+}
+
+uint lvlLen(Lst *lst)
+{
+    uint total = 0;
+    while(lst){
+        total++;
+        lst = lst->nxt;
+    }
+    return total;
 }
