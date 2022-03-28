@@ -74,10 +74,8 @@ Lst *readLst(char **pos)
     Lst *lst = NULL;
     Lst *cur = NULL;
     while((cur = readNxt(pos)) != NULL){
-        if(cur->type == T_LST){
+        if(cur->type == T_LST)
             cur->lst = readLst(pos);
-            cur->nxt = readLst(pos);
-        }
         lst = append(lst, cur);
     }
     return lst;
@@ -102,7 +100,7 @@ void printLst(Lst *lst, int lvl){
                 break;
             case T_LST:
                 ind(lvl);
-                printf("T_LST: (\n");
+                printf("T_LST %u: (\n", lvl);
                 printLst(lst->lst, lvl+1);
                 ind(lvl);
                 printf(")\n");
