@@ -39,3 +39,46 @@ void checkIn(char *in)
     showErr(in, last);
     exit(-1);
 }
+
+char *awaitIn(void)
+{
+    static char buf[1024] = {0};
+    memset(buf, '\0', 1024);
+    uint i = 0;
+    int c;
+    while(i < 1023 && (c = fgetc(stdin)) != '\n'){
+        buf[i] = c;
+        i++;
+    }
+    if(i >= 1024){
+        fprintf(stderr, "Input must be < 1024 chars\n");
+        exit(-1);
+    }
+    return buf;
+}
+
+uint awaitNat(void)
+{
+    char *str;
+    uint in;
+    do{
+        in = 0;
+        str = awaitIn();
+        while(isdigit(*str)){
+            in *= 10;
+            in += *str - '0';
+            str++;
+        }
+    }while(*str != '\0');
+    return in;
+}
+
+uint awaitIndex(const uint max)
+{
+    uint ret;
+    printf("Enter index [0, %u]:\n", max-1);
+    while((ret = awaitNat()) >= max){
+        printf("Must be > 0 and <= %u\n", max-1);
+    }
+    return ret;
+}
