@@ -5,7 +5,6 @@
 #include <ctype.h>
 #include "Lst.h"
 #include "In.h"
-#include "Nav.h"
 #include "Eval.h"
 
 int main(int argc, char *argv[])
@@ -18,12 +17,7 @@ int main(int argc, char *argv[])
     char *in = argv[1];
     checkIn(in);
     Lst *lst = readLst(&in);
-    printf("---------------\n");
-    printLvl(lst);
-    printf("---------------\n");
     printLst(lst, 0);
-    printf("---------------\n");
-    nav(lst);
     printf("Done\n");
 
     return 0;
