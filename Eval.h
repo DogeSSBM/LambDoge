@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EVAL_H
+#define EVAL_H
 
 // print stuff
 // functions
@@ -21,7 +22,7 @@
  *
  * hello (Hello World)
  * (FUNC <- 'ARG1 'ARG2 'ARG3)
- * 
+ *
  * hello
  * symbol (code)
  *
@@ -36,3 +37,5 @@
  *
  *
  */
+
+#endif /* end of include guard: EVAL_H */

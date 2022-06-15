@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <ctype.h>
-#include "Lst.h"
-#include "In.h"
-#include "Eval.h"
+#include "Includes.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,10 +7,12 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Example:\n%s \"()\"\n", argv[0]);
         return -1;
     }
+
     char *in = argv[1];
     checkIn(in);
     Lst *lst = readLst(&in);
-    printLst(lst, 0);
+    printLst(lst);
+    freeLst(lst);
     printf("Done\n");
 
     return 0;

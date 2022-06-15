@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IN_H
+#define IN_H
 
 void showErr(char *in, char *err)
 {
@@ -82,3 +83,5 @@ uint awaitIndex(const uint max)
     }
     return ret;
 }
+
+#endif /* end of include guard: IN_H */

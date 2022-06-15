@@ -1,4 +1,3 @@
 #!/bin/sh
 clear
-flags="-Wall -Wextra -pedantic"
-cc main.c $flags -o main.out
+cc main.c -std=c11 -Wall -Wextra -Wpedantic -g -o main.out

@@ -1,16 +1,5 @@
-#pragma once
-
-typedef enum{T_NAT, T_SYM, T_LST}Type;
-
-typedef struct Lst{
-    Type type;
-    union{
-        uint nat;
-        char *sym;
-        struct Lst *lst;
-    };
-    struct Lst *nxt;
-}Lst;
+#ifndef LST_H
+#define LST_H
 
 char* skipSpace(char *in)
 {
@@ -32,7 +21,7 @@ Lst *append(Lst *head, Lst *tail)
 
 Lst *readNxt(char **pos)
 {
-    if(**pos == ')'){
+    if(**pos == ')') {
         // printf(") %s\n", *pos);
         (*pos)++;
         *pos = skipSpace(*pos);
@@ -69,6 +58,25 @@ Lst *readNxt(char **pos)
     return lst;
 }
 
+void freeLst(Lst *lst)
+{
+    while(lst){
+        switch(lst->type){
+            case T_LST:
+                freeLst(lst->lst);
+                break;
+            case T_SYM:
+                free(lst->sym);
+                break;
+            default:
+                break;
+        }
+        Lst *nxt = lst->nxt;
+        free(lst);
+        lst = nxt;
+    }
+}
+
 Lst *readLst(char **pos)
 {
     Lst *lst = NULL;
@@ -87,7 +95,7 @@ void ind(const uint lvl)
         printf("\t");
 }
 
-void printLst(Lst *lst, int lvl)
+void printLstInd(Lst *lst, const int lvl)
 {
     while(lst){
         switch(lst->type){
@@ -102,7 +110,7 @@ void printLst(Lst *lst, int lvl)
             case T_LST:
                 ind(lvl);
                 printf("T_LST %u: (\n", lvl);
-                printLst(lst->lst, lvl+1);
+                printLstInd(lst->lst, lvl+1);
                 ind(lvl);
                 printf(")\n");
                 break;
@@ -110,3 +118,10 @@ void printLst(Lst *lst, int lvl)
         lst = lst->nxt;
     }
 }
+
+void printLst(Lst *lst)
+{
+    printLstInd(lst, 0);
+}
+
+#endif /* end of include guard: LST_H */
