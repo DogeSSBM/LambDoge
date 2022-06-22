@@ -15,7 +15,7 @@ Lst *readNxt(char **);
 void freeLst(Lst *);
 Lst *readLst(char **);
 void ind(const uint );
-void printLstLvlPos(Lst *lst, const uint, uint);
+void printLstInd(Lst *lst, const int );
 void printLst(Lst *);
 
 #endif /* end of include guard: DECLS_H */

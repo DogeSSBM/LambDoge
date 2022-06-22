@@ -3,7 +3,7 @@
 
 typedef unsigned int uint;
 
-typedef enum{T_NAT, T_SYM, T_LST, T_END}Type;
+typedef enum{T_NAT, T_SYM, T_LST}Type;
 
 typedef struct Lst{
     Type type;

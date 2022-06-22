@@ -19,97 +19,16 @@ Lst *append(Lst *head, Lst *tail)
     return head;
 }
 
-void panic(char *message, char *pos)
-{
-    char *msg = message ? message : "No message";
-    char *at = pos ? pos : "No pos";
-    fprintf(stderr, "Error: \"%s\" at \"%s\"\n", msg, at);
-    exit(EXIT_FAILURE);
-}
-
-Type getNext(char **pos)
-{
-    *pos = skipSpace(*pos);
-    if(**pos == ')')
-        return T_END;
-    if(isalpha(**pos))
-        return T_SYM;
-    if(isdigit(**pos))
-        return T_NAT;
-    if(**pos == '(')
-        return T_LST;
-
-    panic("Unexpected char", *pos);
-    return -1;
-}
-
-Lst* getSym(char **pos)
-{
-    Lst *lst = calloc(1, sizeof(Lst));
-    char *cur = *pos;
-    lst->type = T_SYM;
-    while(isalpha(*cur))
-        cur++;
-    lst->sym = calloc((cur - *pos)+1, sizeof(char));
-    memcpy(lst->sym, *pos, cur - *pos);
-    return lst;
-}
-
-Lst* getNat(char **pos)
-{
-    Lst *lst = calloc(1, sizeof(Lst));
-    char *cur = *pos;
-    lst->type = T_NAT;
-    while(isdigit(*cur)){
-        lst->nat *= 10;
-        lst->nat += *cur - '0';
-        cur++;
-    }
-    return lst;
-}
-
-Lst *getLst(char **pos)
-{
-    Lst *lst = calloc(1, sizeof(Lst));
-    lst->type = T_LST;
-    (*pos)++;
-    return lst;
-}
-
 Lst *readNxt(char **pos)
 {
-    while(**pos != '\0'){
-        switch(getNext(pos)){
-            case T_END:
-                printf("T_END\n");
-                (*pos)++;
-                return NULL;
-                break;
-            case T_SYM:
-                printf("T_SYM\n");
-                return getSym(pos);
-                break;
-            case T_NAT:
-                printf("T_NAT\n");
-                return getNat(pos);
-                break;
-            case T_LST:
-                printf("T_LST\n");
-                return getLst(pos);
-                break;
-            default:
-                panic("how did i get here and what do i do", *pos);
-                break;
-        }
-    }
-    return NULL;
-
-    if(**pos == ')'){
+    if(**pos == ')') {
         // printf(") %s\n", *pos);
         (*pos)++;
         *pos = skipSpace(*pos);
         return NULL;
     }
+    if(**pos == '\0')
+        return NULL;
     Lst *lst = calloc(1, sizeof(Lst));
     if(isalpha(**pos)){
         // printf("s %s\n", *pos);
