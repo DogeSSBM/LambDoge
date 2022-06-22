@@ -73,24 +73,29 @@ Lst *getLst(char **pos)
     Lst *lst = calloc(1, sizeof(Lst));
     lst->type = T_LST;
     (*pos)++;
+    return lst;
 }
 
 Lst *readNxt(char **pos)
 {
-    while(**pos != '\0')
+    while(**pos != '\0'){
         switch(getNext(pos)){
             case T_END:
-                *pos++;
+                printf("T_END\n");
+                (*pos)++;
                 return NULL;
                 break;
             case T_SYM:
+                printf("T_SYM\n");
                 return getSym(pos);
                 break;
             case T_NAT:
+                printf("T_NAT\n");
                 return getNat(pos);
                 break;
             case T_LST:
-
+                printf("T_LST\n");
+                return getLst(pos);
                 break;
             default:
                 panic("how did i get here and what do i do", *pos);
@@ -189,6 +194,11 @@ void printLstLvlPos(Lst *lst, const uint lvl, uint pos)
                 printLstLvlPos(lst->lst, lvl+1, 0);
                 ind(lvl);
                 printf(")\n");
+                break;
+            default:
+                ind(lvl);
+                fprintf(stderr, "UNKNOWN TYPE\n");
+                exit(EXIT_FAILURE);
                 break;
         }
         pos++;
