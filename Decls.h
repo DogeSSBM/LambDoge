@@ -29,4 +29,8 @@ void panicAt(char *, char *);
 void panic(char *);
 void testLst(char **, const uint);
 
+// EVAL_H
+Lst *sum(Lst *);
+Lst *searchEnv(char *, const uint );
+
 #endif /* end of include guard: DECLS_H */

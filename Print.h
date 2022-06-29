@@ -26,7 +26,7 @@ void printLstfHelper(Lst *lst, const PrintFlags flags, const uint lvl, uint pos)
         if(flags & P_VAL){
             switch(lst->type){
                 case T_SYM:
-                    printf("%s", lst->sym);
+                    printf("%s", lst->sym.name);
                     if(flags & P_NL)
                         printf("\n");
                     break;

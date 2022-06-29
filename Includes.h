@@ -12,7 +12,7 @@
 #include "Print.h"
 #include "Lst.h"
 #include "In.h"
-#include "Eval.h"
 #include "TestLst.h"
+#include "Eval.h"
 
 #endif /* end of include guard: INCLUDES_H */

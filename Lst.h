@@ -29,17 +29,24 @@ Lst *readNxt(char **pos)
     }
     if(**pos == '\0')
         return NULL;
-    Lst *lst = calloc(1, sizeof(Lst));
+    Lst *lst = NULL;
     if(isalpha(**pos)){
+        lst = calloc(1, sizeof(Lst));
         // printf("s %s\n", *pos);
         char *cur = *pos;
         lst->type = T_SYM;
         while(isalpha(*cur))
             cur++;
-        lst->sym = calloc((cur - *pos)+1, sizeof(char));
-        memcpy(lst->sym, *pos, cur - *pos);
+        const uint len = cur - *pos;
+        Lst *found = searchEnv(*pos, len);
+        if(found){
+            printf("found: %s\n", found->sym.name);
+        }
+        lst->sym.name = calloc(len+1, sizeof(char));
+        memcpy(lst->sym.name, *pos, cur - *pos);
         *pos = skipSpace(cur);
     }else if(isdigit(**pos)){
+        lst = calloc(1, sizeof(Lst));
         // printf("n %s\n", *pos);
         char *cur = *pos;
         lst->type = T_NAT;
@@ -50,6 +57,7 @@ Lst *readNxt(char **pos)
         }
         *pos = skipSpace(cur);
     }else if(**pos == '('){
+        lst = calloc(1, sizeof(Lst));
         // printf("( %s\n", *pos);
         lst->type = T_LST;
         (*pos)++;
@@ -66,7 +74,7 @@ void freeLst(Lst *lst)
                 freeLst(lst->lst);
                 break;
             case T_SYM:
-                free(lst->sym);
+                free(lst->sym.name);
                 break;
             default:
                 break;
@@ -86,6 +94,8 @@ Lst *readLst(char **pos)
             cur->lst = readLst(pos);
         lst = append(lst, cur);
     }
+    if(!lst)
+        printf("Read NULL lst\n");
     return lst;
 }
 
