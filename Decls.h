@@ -1,6 +1,12 @@
 #ifndef DECLS_H
 #define DECLS_H
 
+// PRINT_H
+void ind(const uint);
+void printLstfHelper(Lst *, const PrintFlags, const uint, uint);
+void printLstf(Lst *, const PrintFlags);
+void printLst(Lst *);
+
 // IN_H
 void showErr(char *, char *);
 bool checkIn(char *, const bool);
