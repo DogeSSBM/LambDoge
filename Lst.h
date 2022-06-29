@@ -89,45 +89,4 @@ Lst *readLst(char **pos)
     return lst;
 }
 
-void ind(const uint lvl)
-{
-    for(uint i = 0; i < lvl; i++)
-        printf("\t");
-}
-
-void printLstLvlPos(Lst *lst, const uint lvl, uint pos)
-{
-    while(lst){
-        switch(lst->type){
-            case T_SYM:
-                ind(lvl);
-                printf("T_SYM @ %u,%u: %s\n", lvl, pos, lst->sym);
-                break;
-            case T_NAT:
-                ind(lvl);
-                printf("T_NAT @ %u,%u: %u\n", lvl, pos, lst->nat);
-                break;
-            case T_LST:
-                ind(lvl);
-                printf("T_LST @ %u,%u: (\n", lvl, pos);
-                printLstLvlPos(lst->lst, lvl+1, 0);
-                ind(lvl);
-                printf(")\n");
-                break;
-            default:
-                ind(lvl);
-                fprintf(stderr, "UNKNOWN TYPE\n");
-                exit(EXIT_FAILURE);
-                break;
-        }
-        pos++;
-        lst = lst->nxt;
-    }
-}
-
-void printLst(Lst *lst)
-{
-    printLstLvlPos(lst, 0, 0);
-}
-
 #endif /* end of include guard: LST_H */
