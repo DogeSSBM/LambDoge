@@ -1,1 +1,0 @@
-./main.out "1 (123 asf (s) 9 ((s gf 2 33333))f) aaa 34 (s)"

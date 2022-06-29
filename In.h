@@ -14,7 +14,7 @@ void showErr(char *in, char *err)
 // (asdf)(asdf) ((s) (2(234))   <-in
 //              ^               <-last
 // ensures input parens are properly formatted and balanced
-void checkIn(char *in)
+bool checkIn(char *in, const bool throw)
 {
     char *pos = in;
     int bal = 0;
@@ -29,16 +29,20 @@ void checkIn(char *in)
         if(bal < 0){
             fprintf(stderr, "Unexpected ')' at \"%s\"\n", pos);
             showErr(in, pos);
-            exit(-1);
+            if(throw)
+                exit(EXIT_FAILURE);
+            return false;
         }
         pos++;
     }
     // parens balanced
     if(bal == 0)
-        return;
+        return true;
     fprintf(stderr, "Unclosed '(' at \"%s\"\n", last);
     showErr(in, last);
-    exit(-1);
+    if(throw)
+        exit(EXIT_FAILURE);
+    return false;
 }
 
 char *awaitIn(void)
@@ -53,7 +57,7 @@ char *awaitIn(void)
     }
     if(i >= 1024){
         fprintf(stderr, "Input must be < 1024 chars\n");
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
     return buf;
 }

@@ -3,7 +3,7 @@
 
 // IN_H
 void showErr(char *, char *);
-void checkIn(char *);
+bool checkIn(char *, const bool);
 char *awaitIn(void);
 uint awaitNat(void);
 uint awaitIndex(const uint);
@@ -17,5 +17,10 @@ Lst *readLst(char **);
 void ind(const uint );
 void printLstInd(Lst *lst, const int );
 void printLst(Lst *);
+
+// TESTLST_H
+void panicAt(char *, char *);
+void panic(char *);
+void testLst(char **, const uint);
 
 #endif /* end of include guard: DECLS_H */

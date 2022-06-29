@@ -15,30 +15,47 @@ void panic(char *message)
     exit(EXIT_FAILURE);
 }
 
-void testLst(const char **allIn, const uint numIn)
+void testLst(char **allIn, const uint numIn)
 {
-    printf("<=<<=<<=||Begin All Tests||=>>=>>=>\n");
+    uint correct = 0;
+    printf("+==================+====================+==================+\n");
+    printf("|##################|  Begin All Tests   |##################|\n");
+    printf("+==================+====================+==================+\n");
     for(uint i = 0; i < numIn; i++){
-        printf("<-<<-<<-||Begin test input %02u/%02u||->>->>->\n", i+1, numIn);
+        if(i>0)
+            printf("+------------------+--------------------+------------------+\n");
+        printf("|                  |        %02u/%02u       |                  |\n", i+1, numIn);
+        printf("+------------------+--------------------+------------------+\n");
+
         char *in = allIn[i];
         if(!in)
             panic("Input NULL");
         printf("Input: \"%s\"\n", in);
         printf("Checking parens...\n");
-        checkIn(in);
-        printf("\t...Done!\n");
-        printf("Parsing Lst...\n");
-        Lst *lst = readLst(&in);
-        printf("\t...Done!\n");
-        printf("Printing parsed Lst...\n");
-        printLst(lst);
-        printf("\t...Done!\n");
-        printf("Freeing Lst...\n");
-        freeLst(lst);
-        printf("\t...Done!\n");
-        printf("<-<<-<<-||Done! input %02u/%02u||->>->>->\n\n", i+1, numIn);
+        const bool valid = checkIn(in, false);
+        correct += valid;
+        printf("...Done checking!\n");
+        if(valid){
+            printf("Parsing Lst...\n");
+            Lst *lst = readLst(&in);
+            printf("...Done parsing!\n");
+            printf("Printing Lst...\n");
+            printLst(lst);
+            printf("...Done printing!\n");
+            printf("Freeing Lst...\n");
+            freeLst(lst);
+            printf("...Done freeing!\n");
+        }else{
+            printf("Unbalanced parens, skipping Lst parsing\n");
+        }
+        printf("+------------------+--------------------+------------------+\n");
+        printf("|                  |        Done        |                  |\n");
     }
-    printf("<=<<=<<=||Done! All Tests||=>>=>>=>\n");
+    printf("+==================+====================+==================+\n");
+    printf("|##################|                    |##################|\n");
+    printf("|##################|       %02u/%02u        |##################|\n", correct, numIn);
+    printf("|##################|                    |##################|\n");
+    printf("+==================+====================+==================+\n");
 }
 
 #endif /* end of include guard: TESTLST_H */
