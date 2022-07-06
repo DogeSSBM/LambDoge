@@ -6,8 +6,8 @@ typedef FILE File;
 
 struct Lst;
 
-typedef enum{T_NAT, T_SYM, T_LST}Type;
-const char *TypeStr[] = {"T_NAT", "T_SYM", "T_LST"};
+typedef enum{T_NAT, T_SYM, T_LST, T_TYP}Type;
+const char *TypeStr[] = {"T_NAT", "T_SYM", "T_LST", "T_TYP"};
 
 typedef struct{
     char *name;
@@ -18,6 +18,7 @@ typedef struct{
 typedef struct Lst{
     Type type;
     union{
+        Type typ;
         uint nat;
         Sym sym;
         struct Lst *lst;

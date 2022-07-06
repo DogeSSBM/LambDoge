@@ -1,0 +1,20 @@
+selL = x, y, z => x
+selM = x, y, z => y
+selR = x, y, z => z
+
+selL (3) => [0]
+selM (3) => [1]
+selR (3) => [2]
+
+selL => L _ _
+selM => _ M _
+selR => _ _ R
+
+selInner => _ ... _
+selInner 1 2 3 5 7 -> 2 3 5
+
+selInnerBraces => _A_..._B_
+selInnerBraces { [ { a 3 gsd } ] } -> [ a 3 gsd]
+
+everyOtherSix (3)(n) => [0][0] [1][0][3] [2][0][3][3]
+everyOther(2)(n) => [0][n]

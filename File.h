@@ -38,14 +38,37 @@ char* fileReadText(const char *filePath)
     return buf;
 }
 
+bool isCommentLine(char *in)
+{
+    if(!in)
+        panic("NULL input cannot be comment");
+    return !strncmp(in, "\n--", 3);
+}
+
+char *getNextLine(char *in)
+{
+    while(*(++in)!=\n)
+}
+
 char *sanatize(char *in)
 {
-    while(cur && cur  != '\0')
+    if(!in)
+        panic("Cannot sanatize NULL input");
+    char *cur = in;
+    while(*(cur++)  != '\0'){
+        if(isCommentLine(cur)){
+            while(*cur != '\n' && *cur != '\0'){
+
+            };
+        }
+    }
+    return in;
 }
 
 Lst *fileReadLst(const char *filePath)
 {
     char *in = fileReadText(filePath);
+    in = sanatize(in);
     checkIn(in, true);
     return readLst(&in);
 }
