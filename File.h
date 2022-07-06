@@ -38,6 +38,11 @@ char* fileReadText(const char *filePath)
     return buf;
 }
 
+char *sanatize(char *in)
+{
+    while(cur && cur  != '\0')
+}
+
 Lst *fileReadLst(const char *filePath)
 {
     char *in = fileReadText(filePath);
