@@ -47,7 +47,7 @@ bool isCommentLine(char *in)
 
 char *getNextLine(char *in)
 {
-    while(*(++in)!=\n)
+    in
 }
 
 char *sanatize(char *in)
