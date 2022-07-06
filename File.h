@@ -45,11 +45,6 @@ bool isCommentLine(char *in)
     return !strncmp(in, "\n--", 3);
 }
 
-char *getNextLine(char *in)
-{
-    in
-}
-
 char *sanatize(char *in)
 {
     if(!in)
@@ -57,9 +52,9 @@ char *sanatize(char *in)
     char *cur = in;
     while(*(cur++)  != '\0'){
         if(isCommentLine(cur)){
-            while(*cur != '\n' && *cur != '\0'){
-
-            };
+            do
+                *cur = ' ';
+            while(*(cur++) != '\n' && *cur != '\0');
         }
     }
     return in;
