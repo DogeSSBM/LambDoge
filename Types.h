@@ -2,6 +2,8 @@
 #define TYPES_H
 
 typedef unsigned int uint;
+typedef FILE File;
+
 struct Lst;
 
 typedef enum{T_NAT, T_SYM, T_LST}Type;

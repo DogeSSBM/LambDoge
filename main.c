@@ -10,12 +10,7 @@ int main(int argc, char *argv[])
 
     // #include "TestInclude.doge"
 
-    env = calloc(1, sizeof(Lst));
-    env->type = T_SYM;
-    env->sym.name = "sum";
-    
-
-    char *in = argv[1];
+    char *in = fileReadText(argv[1]);
     checkIn(in, true);
     // Lst *lst = NULL;
     // Lst *cur;

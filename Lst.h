@@ -38,10 +38,10 @@ Lst *readNxt(char **pos)
         while(isalpha(*cur))
             cur++;
         const uint len = cur - *pos;
-        Lst *found = searchEnv(*pos, len);
-        if(found){
-            printf("found: %s\n", found->sym.name);
-        }
+        // Lst *found = searchEnv(*pos, len);
+        // if(found){
+        //     printf("found: %s\n", found->sym.name);
+        // }
         lst->sym.name = calloc(len+1, sizeof(char));
         memcpy(lst->sym.name, *pos, cur - *pos);
         *pos = skipSpace(cur);

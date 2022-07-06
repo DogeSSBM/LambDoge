@@ -12,6 +12,7 @@
 #include "Print.h"
 #include "Lst.h"
 #include "In.h"
+#include "File.h"
 #include "TestLst.h"
 #include "Eval.h"
 

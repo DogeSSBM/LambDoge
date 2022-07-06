@@ -1,15 +1,15 @@
 #ifndef TESTLST_H
 #define TESTLST_H
 
-void panicAt(char *message, char *pos)
+void panicAt(const char *message, const char *pos)
 {
-    char *msg = message ? message : "No message";
-    char *at = pos ? pos : "No pos";
+    const char *msg = message ? message : "No message";
+    const char *at = pos ? pos : "No pos";
     fprintf(stderr, "Error: \"%s\" at \"%s\"\n", msg, at);
     exit(EXIT_FAILURE);
 }
 
-void panic(char *message)
+void panic(const char *message)
 {
     fprintf(stderr, "Error: \"%s\"\n", message);
     exit(EXIT_FAILURE);

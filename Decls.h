@@ -14,6 +14,9 @@ char *awaitIn(void);
 uint awaitNat(void);
 uint awaitIndex(const uint);
 
+// FILE_H
+char* fileReadText(const char *);
+
 // LST_H
 char* skipSpace(char *);
 Lst *append(Lst *head, Lst *);
@@ -25,12 +28,12 @@ void printLstInd(Lst *lst, const int );
 void printLst(Lst *);
 
 // TESTLST_H
-void panicAt(char *, char *);
-void panic(char *);
+void panicAt(const char *, const char *);
+void panic(const char *);
 void testLst(char **, const uint);
 
 // EVAL_H
-Lst *sum(Lst *);
-Lst *searchEnv(char *, const uint );
+// Lst *sum(Lst *);
+// Lst *searchEnv(char *, const uint );
 
 #endif /* end of include guard: DECLS_H */
