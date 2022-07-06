@@ -38,4 +38,11 @@ char* fileReadText(const char *filePath)
     return buf;
 }
 
+Lst *fileReadLst(const char *filePath)
+{
+    char *in = fileReadText(filePath);
+    checkIn(in, true);
+    return readLst(&in);
+}
+
 #endif /* end of include guard: FILE_H */

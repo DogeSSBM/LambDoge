@@ -10,14 +10,12 @@ int main(int argc, char *argv[])
 
     // #include "TestInclude.doge"
 
-    char *in = fileReadText(argv[1]);
-    checkIn(in, true);
     // Lst *lst = NULL;
     // Lst *cur;
     //     while((cur = readNxt(&in))){
     //     lst = append(lst, cur);
     // }
-    Lst *lst = readLst(&in);
+    Lst *lst = fileReadLst(argv[1]);
     printLst(lst);
     freeLst(lst);
     printf("Done\n");
